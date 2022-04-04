@@ -16,33 +16,33 @@ services:
           cpus: "0.25"
           memory: "128M"
     working_dir: /home/node/api
-    command: "yarn start"
+    command: "yarn dev"
     ports:
       - 8180:8180
     volumes:
-      - ./packages/api:/home/node/api
+      - ./api:/home/node/api
     depends_on:
       - mongo
     networks:
       - backend
 
-#  web:
-#    container_name: ripuy-web
-#    image: node:14.5.0-alpine
-#    working_dir: /home/node/web
-#    restart: unless-stopped
-#    command: "yarn offline"
-#    environment:
-#      - NODE_ENV=offline
-#    ports:
-#      - 3000:3000
-#    volumes:
-#      - ./:/home/node/web
-#    depends_on:
-#      - api
+  web:
+    container_name: board-web
+    image: node:16.14-alpine
+    working_dir: /home/node/web
+    restart: unless-stopped
+    command: "yarn dev"
+    environment:
+      - NODE_ENV=development
+    ports:
+      - 3000:3000
+    volumes:
+      - ./client:/home/node/web
+    depends_on:
+      - api
 
   mongo:
-    image: mongo:5.0.6
+    image: mongo:4.2.9
     container_name: board-mongo
     command: mongod --serviceExecutor adaptive
     restart: unless-stopped
