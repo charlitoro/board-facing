@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  api:
+    container_name: board-api
+    image: node:16.14-alpine
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=development
+    deploy:
+      resources:
+        limits:
+          cpus: "0.8"
+          memory: "800M"
+        reservations:
+          cpus: "0.25"
+          memory: "128M"
+    working_dir: /home/node/api
+    command: "yarn start"
+    ports:
+      - 8180:8180
+    volumes:
+      - ./packages/api:/home/node/api
+    depends_on:
+      - mongo
+    networks:
+      - backend
+
+#  web:
+#    container_name: ripuy-web
+#    image: node:14.5.0-alpine
+#    working_dir: /home/node/web
+#    restart: unless-stopped
+#    command: "yarn offline"
+#    environment:
+#      - NODE_ENV=offline
+#    ports:
+#      - 3000:3000
+#    volumes:
+#      - ./:/home/node/web
+#    depends_on:
+#      - api
+
+  mongo:
+    image: mongo:5.0.6
+    container_name: board-mongo
+    command: mongod --serviceExecutor adaptive
+    restart: unless-stopped
+    volumes:
+      - ./db/data:/data/db
+      - ./db/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: M0ng048
+      MONGO_INITDB_DATABASE: board-facing
+    networks:
+      - backend
+
+networks:
+  backend:
