@@ -4,7 +4,6 @@ const path = require('path')
 const { unlink }  = require('fs-extra')
 // Models
 const {Resource, Board } = require('../models/Board')
-const multer = require('../multer')
 
 const adminRouter = Router();
 
@@ -75,7 +74,7 @@ adminRouter.get('/boards', async (req, res) => {
     }
 })
 
-adminRouter.post('/boards/delete', async (req, res) => {
+adminRouter.post('/board/delete', async (req, res) => {
     try {
         const { id } = req.body
         const board = await Board.findByIdAndDelete(id)

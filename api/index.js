@@ -24,7 +24,7 @@ app.use(cors())
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended: false}));
 const storage = multer.diskStorage({
-    destination: path.join(__dirname, 'public/img/uploads'),
+    destination: path.join(__dirname, '/../client/public/img/uploads'),
     filename: async (req, file, cb) => {
         cb(null, uuid() + path.extname(file.originalname));
     }

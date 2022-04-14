@@ -1,11 +1,39 @@
-import React from "react";
+import React, {useState} from "react";
 
 // reactstrap components
-import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
+import {Card, CardBody, CardTitle, Container, Row, Col, Button} from "reactstrap";
+import {createBoard, deleteBoard} from "../../packages/api";
+import CreateBoardModal from "../Modals/CreateBoard";
+import ConfirmModal from "../Modals/Confirm";
 
-function Header({ boards, onSelectBoard }) {
+
+function Header({ boards, onSelectBoard, refreshBoards }) {
+  const [showCreateBoard, setShowCreateBoard] = useState(null)
+  const [showConfirm, setShowConfirm] = useState(false)
+  const [boardToDelete, setBoardToDelete] = useState(null)
+
+  function handleOnSubmitCreateBoard( data ){
+    createBoard(data).then(() => refreshBoards())
+    setShowCreateBoard(false)
+  }
+
+  function handleOnDeleteBoard(){
+    deleteBoard(boardToDelete._id).then(() => refreshBoards())
+    setShowConfirm(false)
+  }
+
   return (
     <>
+      <CreateBoardModal
+          isOpen={showCreateBoard}
+          onClose={() => setShowCreateBoard(false)}
+          onSubmit={handleOnSubmitCreateBoard}
+      />
+      <ConfirmModal
+          isOpen={showConfirm}
+          onClose={() => setShowConfirm(false)}
+          onSubmit={handleOnDeleteBoard}
+      />
       <div className="header bg-gradient-dark pb-8 pt-5 pt-md-8" >
         <Container fluid>
           <div className="header-body">
@@ -29,7 +57,10 @@ function Header({ boards, onSelectBoard }) {
                       </div>
                       <Col className="col-auto">
                         <div className="icon icon-shape bg-danger text-white rounded-circle shadow">
-                          <i className="fas fa-chart-bar" />
+                          <i className="fas fa-trash" onClick={() => {
+                            setBoardToDelete(board)
+                            setShowConfirm(true)
+                          }}/>
                         </div>
                       </Col>
                     </Row>
@@ -42,6 +73,17 @@ function Header({ boards, onSelectBoard }) {
                 </Card>
               </Col>
               )}
+            </Row>
+            <Row>
+              <Col>
+                <Button
+                    color="primary"
+                    onClick={() => setShowCreateBoard(true)}
+                    size="sm"
+                >
+                  Add new board
+                </Button>
+              </Col>
             </Row>
           </div>
         </Container>

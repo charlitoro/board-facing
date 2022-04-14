@@ -39,3 +39,25 @@ export const deleteResource = async (id) => {
     }).then(res => res.json())
     console.log(res)
 }
+
+export const createBoard = async (data) => {
+    const res = await fetch(`${API_URL}/board/create`, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then( res => res.json() )
+    return res["data"]
+}
+
+export const deleteBoard = async (id) => {
+    const res = await fetch(`${API_URL}/board/delete`, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({id})
+    }).then( res => res.json() )
+    return res["data"]
+}

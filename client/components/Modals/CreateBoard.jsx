@@ -3,33 +3,28 @@ import React, {useState} from "react";
 // reactstrap components
 import {
     Button,
-    Card,
-    CardHeader,
-    CardBody,
     FormGroup,
     Form,
     Input,
     InputGroupAddon,
     InputGroupText,
     InputGroup,
-    Col,
-    Modal, ModalBody, ModalFooter
+    Modal,
+    ModalBody
 } from "reactstrap";
 // layout for this page
 import Admin from "layouts/Admin.js";
 
-function CreateResourceModal({ isOpen, onClose, onSubmit }) {
+function CreateBoardModal({ isOpen, onClose, onSubmit }) {
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
-    const [file, setFile] = useState(null)
-    const [expireDate, setExpireDate] = useState(null)
 
     return (
         <>
             <Modal isOpen={isOpen} toggle={onClose}>
                 <div className=" modal-header">
                     <h5 className=" modal-title" id="exampleModalLabel">
-                        Create New Resource
+                        Create New Board
                     </h5>
                     <button
                         aria-label="Close"
@@ -42,24 +37,6 @@ function CreateResourceModal({ isOpen, onClose, onSubmit }) {
                 </div>
                 <ModalBody>
                     <Form role="form">
-                        <FormGroup>
-                            <InputGroup className="input-group-alternative">
-                                <InputGroupAddon addonType="prepend">
-                                    <InputGroupText>
-                                        <i className="ni ni-cloud-upload-96" />
-                                    </InputGroupText>
-                                </InputGroupAddon>
-                                <Input
-                                    placeholder="file"
-                                    type="file"
-                                    autoComplete="new-file"
-                                    onChange={ (e) => {
-                                        console.log(e.target.files[0])
-                                        setFile(e.target.files[0])
-                                    }}
-                                />
-                            </InputGroup>
-                        </FormGroup>
                         <FormGroup>
                             <InputGroup className="input-group-alternative mb-3">
                                 <InputGroupAddon addonType="prepend">
@@ -89,40 +66,21 @@ function CreateResourceModal({ isOpen, onClose, onSubmit }) {
                                 />
                             </InputGroup>
                         </FormGroup>
-                        <FormGroup>
-                            <InputGroup className="input-group-alternative">
-                                <InputGroupAddon addonType="prepend">
-                                    <InputGroupText>
-                                        <i className="ni ni-calendar-grid-58" />
-                                    </InputGroupText>
-                                </InputGroupAddon>
-                                <Input
-                                    placeholder="Password"
-                                    type="date"
-                                    autoComplete="new-password"
-                                    onChange={(e) => setExpireDate(e.target.value)}
-                                />
-                            </InputGroup>
-                        </FormGroup>
+                        <div className="text-center">
+                            <Button className="mt-4" color="primary" type="button" onClick={() => onSubmit({
+                                name,
+                                description
+                            })}>
+                                Create Board
+                            </Button>
+                        </div>
                     </Form>
                 </ModalBody>
-                <ModalFooter>
-                    <div className="text-center">
-                        <Button className="mt-4" color="primary" type="button" onClick={() => onSubmit({
-                            name,
-                            expireDate,
-                            description,
-                            file
-                        })}>
-                            Create resource
-                        </Button>
-                    </div>
-                </ModalFooter>
             </Modal>
         </>
     );
 }
 
-CreateResourceModal.layout = Admin;
+CreateBoardModal.layout = Admin;
 
-export default CreateResourceModal;
+export default CreateBoardModal;

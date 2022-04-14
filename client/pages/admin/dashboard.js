@@ -18,10 +18,13 @@ import {
   chartOptions,
   parseOptions,
 } from "variables/charts.js";
+import Link from 'next/link'
 
 import Header from "components/Headers/Header.js";
-import {deleteResource, getBoards, getResources, uploadResource} from "../../packages/api";
+import {createBoard, deleteResource, getBoards, getResources, uploadResource} from "../../packages/api";
 import CreateResourceModal from "../../components/Modals/CreateResource";
+import ResourcePreviewModal from "../../components/Modals/ResourcePreview";
+import CreateBoardModal from "../../components/Modals/CreateBoard";
 
 
 const Dashboard = (props) => {
@@ -29,9 +32,11 @@ const Dashboard = (props) => {
   const [boards, setBoards] = useState([])
   const [boardSelected, setBoardSelected] = useState(null)
   const [showCreateResource, setShowCreateResource] = useState(false)
+  const [showResource, setShowResource] = useState(false)
+  const [resourceSelected, setResourceSelected] = useState(null)
 
   useEffect(() => {
-    getBoards().then(data => setBoards(data))
+      handleRefreshBoards()
   }, [])
 
   if (window.Chart) {
@@ -53,6 +58,16 @@ const Dashboard = (props) => {
     deleteResource(id).then()
   }
 
+  function handleShowResource( resource ){
+    setShowResource(true)
+    setResourceSelected(resource)
+  }
+
+  function handleRefreshBoards(){
+      getBoards().then(data => setBoards(data))
+  }
+
+
   return (
     <>
       <CreateResourceModal
@@ -60,7 +75,16 @@ const Dashboard = (props) => {
           onClose={() => setShowCreateResource(false)}
           onSubmit={handleOnSubmit}
       />
-      <Header boards={boards} onSelectBoard={handleSelectBoard}/>
+      <ResourcePreviewModal
+          isOpen={showResource}
+          onClose={() => setShowResource(false)}
+          src={resourceSelected ? resourceSelected.path : ""}
+      />
+      <Header
+          boards={boards}
+          onSelectBoard={handleSelectBoard}
+          refreshBoards={handleRefreshBoards}
+      />
       {/* Page content */}
       <Container className="mt--7" fluid>
         <Row className="mt-5">
@@ -101,7 +125,7 @@ const Dashboard = (props) => {
                       <Button
                           color="primary"
                           href="#pablo"
-                          onClick={(e) => e.preventDefault()}
+                          onClick={() => handleShowResource(resource)}
                           size="sm"
                       >
                         Preview
