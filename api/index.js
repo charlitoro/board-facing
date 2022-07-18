@@ -5,6 +5,7 @@ const multer = require('multer');
 const uuid = require('uuid/v4');
 const adminRouter = require('./src/routes/adminRoutes')
 const clientRouter = require('./src/routes/clientRouter')
+const authRoter = require('./src/routes/auth')
 const path = require('path')
 const cors = require('cors')
 
@@ -39,6 +40,7 @@ app.use((req, res, next) => {
 // routes
 app.use(adminRouter);
 app.use(clientRouter);
+app.use(authRoter);
 
 // start
 app.listen(8180, () => {
