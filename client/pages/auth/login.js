@@ -1,10 +1,9 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 
 // reactstrap components
 import {
   Button,
   Card,
-  CardHeader,
   CardBody,
   FormGroup,
   Form,
@@ -12,52 +11,33 @@ import {
   InputGroupAddon,
   InputGroupText,
   InputGroup,
-  Row,
   Col,
 } from "reactstrap";
 // layout for this page
 import Auth from "layouts/Auth.js";
+import {login} from "../../packages/api";
+import {useLocalStorage} from "../../storage";
 
 function Login() {
+  const [email, setEmail] = useState()
+  const [password, setPassword] = useState()
+  const [token, setToken] = useLocalStorage("token", "")
+
+  useEffect(() => {
+    if ( token )
+      window.location.href = 'http://localhost:3000/admin'
+  }, [token])
+
+  const handleLogin = async () => {
+    const data = await login(email, password)
+    setToken(data.token)
+    window.location.href = 'http://localhost:3000/admin'
+  }
+
   return (
     <>
       <Col lg="5" md="7">
         <Card className="bg-secondary shadow border-0">
-          <CardHeader className="bg-transparent pb-5">
-            <div className="text-muted text-center mt-2 mb-3">
-              <small>Sign in with</small>
-            </div>
-            <div className="btn-wrapper text-center">
-              <Button
-                className="btn-neutral btn-icon"
-                color="default"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
-              >
-                <span className="btn-inner--icon">
-                  <img
-                    alt="..."
-                    src={require("assets/img/icons/common/github.svg")}
-                  />
-                </span>
-                <span className="btn-inner--text">Github</span>
-              </Button>
-              <Button
-                className="btn-neutral btn-icon"
-                color="default"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
-              >
-                <span className="btn-inner--icon">
-                  <img
-                    alt="..."
-                    src={require("assets/img/icons/common/google.svg")}
-                  />
-                </span>
-                <span className="btn-inner--text">Google</span>
-              </Button>
-            </div>
-          </CardHeader>
           <CardBody className="px-lg-5 py-lg-5">
             <div className="text-center text-muted mb-4">
               <small>Or sign in with credentials</small>
@@ -71,9 +51,11 @@ function Login() {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
+                    value={email}
                     placeholder="Email"
                     type="email"
                     autoComplete="new-email"
+                    onChange={(event) => setEmail(event.target.value) }
                   />
                 </InputGroup>
               </FormGroup>
@@ -85,9 +67,11 @@ function Login() {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
+                    value={password}
                     placeholder="Password"
                     type="password"
                     autoComplete="new-password"
+                    onChange={(event) => setPassword(event.target.value) }
                   />
                 </InputGroup>
               </FormGroup>
@@ -105,33 +89,18 @@ function Login() {
                 </label>
               </div>
               <div className="text-center">
-                <Button className="my-4" color="primary" type="button">
+                <Button
+                    className="my-4"
+                    color="primary"
+                    type="button"
+                    onClick={handleLogin}
+                >
                   Sign in
                 </Button>
               </div>
             </Form>
           </CardBody>
         </Card>
-        <Row className="mt-3">
-          <Col xs="6">
-            <a
-              className="text-light"
-              href="#pablo"
-              onClick={(e) => e.preventDefault()}
-            >
-              <small>Forgot password?</small>
-            </a>
-          </Col>
-          <Col className="text-right" xs="6">
-            <a
-              className="text-light"
-              href="#pablo"
-              onClick={(e) => e.preventDefault()}
-            >
-              <small>Create new account</small>
-            </a>
-          </Col>
-        </Row>
       </Col>
     </>
   );

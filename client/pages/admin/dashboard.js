@@ -25,6 +25,7 @@ import {createBoard, deleteResource, getBoards, getResources, uploadResource} fr
 import CreateResourceModal from "../../components/Modals/CreateResource";
 import ResourcePreviewModal from "../../components/Modals/ResourcePreview";
 import CreateBoardModal from "../../components/Modals/CreateBoard";
+import {useLocalStorage} from "../../storage";
 
 
 const Dashboard = (props) => {
@@ -34,6 +35,12 @@ const Dashboard = (props) => {
   const [showCreateResource, setShowCreateResource] = useState(false)
   const [showResource, setShowResource] = useState(false)
   const [resourceSelected, setResourceSelected] = useState(null)
+  const [token] = useLocalStorage("token", "")
+
+  useEffect(() => {
+    if(!token)
+      window.location.href = 'http://localhost:3000/auth/login'
+  }, [token])
 
   useEffect(() => {
       handleRefreshBoards()
