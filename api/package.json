@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "yarn install && nodemon"
+    "dev": "yarn install && nodemon",
+    "offline": "export NODE_ENV=offline && yarn install && nodemon"
   },
   "keywords": [],
   "author": "Ortiz",

@@ -23,6 +23,8 @@ function Login() {
   const [password, setPassword] = useState()
   const [token, setToken] = useLocalStorage("token", "")
 
+  // const API_URL = process.env.NODE_ENV === 'development' ? 'web/admin'
+
   useEffect(() => {
     if ( token )
       window.location.href = 'http://localhost:3000/admin'

@@ -9,8 +9,9 @@ const authRoter = require('./src/routes/auth')
 const path = require('path')
 const cors = require('cors')
 
-require('dotenv').config()
-
+require('dotenv').config({
+    path: process.env.NODE_ENV === 'development' ? '.env.dev' : '.env.off'
+})
 
 // intializations
 const app = express();
