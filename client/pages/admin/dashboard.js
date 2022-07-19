@@ -127,7 +127,7 @@ const Dashboard = (props) => {
                 {resources && resources.map( (resource) => <>
                   <tr>
                     <th scope="row">{resource.name}</th>
-                    <td>resource.description</td>
+                    <td>{resource.description}</td>
                     <td>
                       <Button
                           color="primary"
