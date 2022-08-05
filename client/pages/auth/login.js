@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-
+import Link from "next/link";
 // reactstrap components
 import {
   Button,
@@ -26,14 +26,13 @@ function Login() {
   // const API_URL = process.env.NODE_ENV === 'development' ? 'web/admin'
 
   useEffect(() => {
-    if ( token )
-      window.location.href = 'http://localhost:3000/admin'
+    // if ( token )
+      // window.location.href = 'http://localhost:3000/admin'
   }, [token])
 
   const handleLogin = async () => {
     const data = await login(email, password)
     setToken(data.token)
-    window.location.href = 'http://localhost:3000/admin'
   }
 
   return (
@@ -91,14 +90,16 @@ function Login() {
                 </label>
               </div>
               <div className="text-center">
-                <Button
-                    className="my-4"
-                    color="primary"
-                    type="button"
-                    onClick={handleLogin}
-                >
-                  Sign in
-                </Button>
+                <Link href={"/admin/dashboard"}>
+                  <Button
+                      className="my-4"
+                      color="primary"
+                      type="button"
+                      onClick={handleLogin}
+                  >
+                    Sign in
+                  </Button>
+                </Link>
               </div>
             </Form>
           </CardBody>

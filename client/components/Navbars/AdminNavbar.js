@@ -11,8 +11,11 @@ import {
   Container,
   Media,
 } from "reactstrap";
+import {useLocalStorage} from "../../storage";
 
 function AdminNavbar({ brandText }) {
+  const [_, setToken] = useLocalStorage("token", "")
+
   return (
     <>
       <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
@@ -29,7 +32,7 @@ function AdminNavbar({ brandText }) {
                   <span className="avatar avatar-sm rounded-circle">
                     <img
                       alt="..."
-                      src={require("assets/img/theme/team-4-800x800.jpg")}
+                      src={require("assets/img/theme/facing-user.jpeg")}
                     />
                   </span>
                   <Media className="ml-2 d-none d-lg-block">
@@ -40,10 +43,12 @@ function AdminNavbar({ brandText }) {
                 </Media>
               </DropdownToggle>
               <DropdownMenu className="dropdown-menu-arrow" right>
-                <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
-                  <i className="ni ni-user-run" />
-                  <span>Logout</span>
-                </DropdownItem>
+                <Link href={"/admin/login"}>
+                  <DropdownItem href="#" onClick={ () => setToken("")}>
+                    <i className="ni ni-user-run" />
+                      <span>Logout</span>
+                  </DropdownItem>
+                </Link>
               </DropdownMenu>
             </UncontrolledDropdown>
           </Nav>

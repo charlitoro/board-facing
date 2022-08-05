@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React from "react";
+import React, {useEffect} from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 // nodejs library to set properties for components
@@ -12,11 +12,6 @@ import {
   DropdownItem,
   UncontrolledDropdown,
   DropdownToggle,
-  Form,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
   Media,
   NavbarBrand,
   Navbar,
@@ -27,9 +22,11 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import {useLocalStorage} from "../../storage";
 
 
 function Sidebar(props) {
+  const [_, setToken] = useLocalStorage("token", "")
   // used for checking current route
   const router = useRouter();
   const [collapseOpen, setCollapseOpen] = React.useState(false);
@@ -128,10 +125,12 @@ function Sidebar(props) {
               <DropdownItem className="noti-title" header tag="div">
                 <h6 className="text-overflow m-0">Name User</h6>
               </DropdownItem>
-              <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
-                <i className="ni ni-user-run" />
-                <span>Logout</span>
-              </DropdownItem>
+              <Link href={"/admin/login"}>
+                <DropdownItem href="#" onClick={() => setToken("")}>
+                  <i className="ni ni-user-run" />
+                  <span>Logout</span>
+                </DropdownItem>
+              </Link>
             </DropdownMenu>
           </UncontrolledDropdown>
         </Nav>
