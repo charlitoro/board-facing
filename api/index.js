@@ -17,10 +17,11 @@ require('dotenv').config({
 const app = express();
 require('./src/connection');
 
+app.use(cors({
+    origin: '*'
+}))
 app.use(json( { extended: true } ))
 app.use(urlencoded( { extended: true } ))
-
-app.use(cors())
 
 // middlewares
 app.use(morgan('dev'));
