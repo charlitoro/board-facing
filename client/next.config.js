@@ -6,7 +6,7 @@ const withFonts = require("next-fonts");
 const webpack = require("webpack");
 const path = require("path");
 
-module.exports = withFonts(
+const mainConfig = withFonts(
   withCSS(
     withImages(
       withSass({
@@ -24,3 +24,10 @@ module.exports = withFonts(
     )
   )
 );
+
+module.exports = {
+    ...mainConfig,
+    env: {
+        API_URL: process.env.API_URL,
+    }
+}

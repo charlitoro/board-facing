@@ -35,6 +35,7 @@ services:
     command: "yarn dev"
     environment:
       - NODE_ENV=development
+      - API_URL="http://20.206.64.151:8180"
     ports:
       - 3000:3000
     volumes:

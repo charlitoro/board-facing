@@ -1,8 +1,11 @@
 // import fetch from 'node-fetch'
 
-const API_URL = 'http://localhost:8180'
+const getURL = () => {
+    return process.env.API_URL || 'http://localhost:8180'
+}
 
 export const getBoards = async () => {
+    const API_URL = getURL()
     const res = await fetch(`${API_URL}/boards`, {
         method: 'GET'
     }).then(res => res.json())
@@ -10,6 +13,7 @@ export const getBoards = async () => {
 }
 
 export const getResources = async ( id ) => {
+    const API_URL = getURL()
     const res = await fetch(`${API_URL}/board/${id}`, {
         method: 'GET'
     }).then(res => res.json())
@@ -17,6 +21,7 @@ export const getResources = async ( id ) => {
 }
 
 export const uploadResource = async (data) => {
+    const API_URL = getURL()
     const formData  = new FormData();
     for (const name in data) {
         formData.append(name, data[name]);
@@ -30,6 +35,7 @@ export const uploadResource = async (data) => {
 }
 
 export const deleteResource = async (id) => {
+    const API_URL = getURL()
     const res = await fetch(`${API_URL}/resource/delete`, {
         method: 'POST',
         headers: {
@@ -41,6 +47,7 @@ export const deleteResource = async (id) => {
 }
 
 export const createBoard = async (data) => {
+    const API_URL = getURL()
     const res = await fetch(`${API_URL}/board/create`, {
         method: 'post',
         headers: {
@@ -52,6 +59,7 @@ export const createBoard = async (data) => {
 }
 
 export const deleteBoard = async (id) => {
+    const API_URL = getURL()
     const res = await fetch(`${API_URL}/board/delete`, {
         method: 'post',
         headers: {
@@ -64,6 +72,7 @@ export const deleteBoard = async (id) => {
 
 
 export const login = async (email, password) => {
+    const API_URL = getURL()
     const res = await fetch(`${API_URL}/login`, {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
