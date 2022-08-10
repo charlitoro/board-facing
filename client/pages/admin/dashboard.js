@@ -39,7 +39,7 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     if(!token)
-      window.location.href = 'http://localhost:3000/auth/login'
+      window.location.href = process.env.HOST ? `${process.env.HOST}:3000/auth/login` : 'http://localhost:3000/auth/login'
   }, [token])
 
   useEffect(() => {
