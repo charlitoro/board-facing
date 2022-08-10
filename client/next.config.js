@@ -28,7 +28,7 @@ const mainConfig = withFonts(
 module.exports = {
     ...mainConfig,
     env: {
-        API_URL: process.env.API_URL ? `${process.env.HOST}:8180` : undefined,
+        API_URL: process.env.HOST ? `${process.env.HOST}:8180` : undefined,
         HOST: process.env.HOST
     }
 }
