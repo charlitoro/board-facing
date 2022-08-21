@@ -68,14 +68,6 @@ function AdminNavbar() {
                 </Link>
               </NavItem>
               <NavItem>
-                <Link href="/auth/login">
-                  <NavLink href="#pablo" className="nav-link-icon">
-                    <i className="ni ni-key-25" />
-                    <span className="nav-link-inner--text">Login</span>
-                  </NavLink>
-                </Link>
-              </NavItem>
-              <NavItem>
                 <Link href="/admin/profile">
                   <NavLink href="#pablo" className="nav-link-icon">
                     <i className="ni ni-single-02" />

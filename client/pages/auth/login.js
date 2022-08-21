@@ -23,16 +23,13 @@ function Login() {
   const [password, setPassword] = useState()
   const [token, setToken] = useLocalStorage("token", "")
 
-  // const API_URL = process.env.NODE_ENV === 'development' ? 'web/admin'
-
-  useEffect(() => {
-    // if ( token )
-      // window.location.href = 'http://localhost:3000/admin'
-  }, [token])
-
   const handleLogin = async () => {
-    const data = await login(email, password)
-    setToken(data.token)
+    const { data, message } = await login(email, password)
+    if (data)
+      setToken(data.token)
+    else {
+      window.alert(message)
+    }
   }
 
   return (
@@ -76,19 +73,6 @@ function Login() {
                   />
                 </InputGroup>
               </FormGroup>
-              <div className="custom-control custom-control-alternative custom-checkbox">
-                <input
-                  className="custom-control-input"
-                  id=" customCheckLogin"
-                  type="checkbox"
-                />
-                <label
-                  className="custom-control-label"
-                  htmlFor=" customCheckLogin"
-                >
-                  <span className="text-muted">Remember me</span>
-                </label>
-              </div>
               <div className="text-center">
                 <Link href={"/admin/dashboard"}>
                   <Button

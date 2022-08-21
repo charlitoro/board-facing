@@ -73,10 +73,9 @@ export const deleteBoard = async (id) => {
 
 export const login = async (email, password) => {
     const API_URL = getURL()
-    const res = await fetch(`${API_URL}/login`, {
+    return await fetch(`${API_URL}/login`, {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
     }).then(res => res.json())
-    return res["data"]
 }
